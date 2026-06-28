@@ -1,0 +1,22 @@
+[project]
+name = "plotspec"
+version = "0.1.0"
+requires-python = ">=3.13"
+dependencies = []
+
+[dependency-groups]
+dev = [
+    "polylith-cli>=1.48.1",
+    "pytest>=9.1.1",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build]
+dev-mode-dirs = ["components", "bases", "development", "."]
+
+[tool.pytest.ini_options]
+addopts = "-ra"
+python_files = ["test_*.py", "*_test.py"]
