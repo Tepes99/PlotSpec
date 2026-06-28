@@ -2,10 +2,19 @@
 name = "plotspec"
 version = "0.1.0"
 requires-python = ">=3.13"
-dependencies = []
+dependencies = [
+    "duckdb",
+    "fastapi",
+    "plotly",
+    "uvicorn",
+]
+
+[project.scripts]
+plotspec-dev = "plot_spec.dev:main"
 
 [dependency-groups]
 dev = [
+    "httpx>=0.28.1",
     "polylith-cli>=1.48.1",
     "pytest>=9.1.1",
 ]
@@ -16,6 +25,9 @@ build-backend = "hatchling.build"
 
 [tool.hatch.build]
 dev-mode-dirs = ["components", "bases", "development", "."]
+
+[tool.hatch.build.targets.wheel]
+packages = ["components/plot_spec"]
 
 [tool.pytest.ini_options]
 addopts = "-ra"

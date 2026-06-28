@@ -1,6 +1,5 @@
+.git
 .idea
-.obsidian
-uv.lock
 .venv
 __pycache__/
-*.pyc
+tests/

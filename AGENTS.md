@@ -116,6 +116,18 @@ Run tests with:
 uv run pytest
 ```
 
+## Version Notes
+
+Every new project version must add a version note file under `documentation/version_notes/`.
+
+Rules:
+
+- Create one file per released version, named with the exact version number, for example `0.1.0.md`.
+- Write notes that are comprehensive but concise.
+- Cover at least: summary, delivered scope, key behavior, API or interface changes, verification status, and known limitations.
+- Keep the notes grounded in what actually shipped, not planned work.
+- Update version notes as part of the same change set that introduces the new version.
+
 ## Dependency Rule
 
 Every dependency must earn its place. Before adding one, ask:

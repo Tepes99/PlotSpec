@@ -1,0 +1,8 @@
+services:
+  plotspec:
+    build:
+      context: .
+    ports:
+      - "8000:8000"
+    environment:
+      PLOTSPEC_PROJECTS_ROOT: /app/projects

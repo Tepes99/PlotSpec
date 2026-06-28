@@ -1,0 +1,110 @@
+{
+  "dashboard": {
+    "id": "sales-overview",
+    "title": "Sales Overview",
+    "description": "Proof-of-concept dashboard driven by a JSON specification."
+  },
+  "data_sources": [
+    {
+      "id": "sales_records",
+      "kind": "csv",
+      "path": "data/sales.csv"
+    }
+  ],
+  "queries": [
+    {
+      "id": "sales_base",
+      "sql": "SELECT month, region, category, revenue FROM sales_records __filters__ ORDER BY month, region, category"
+    },
+    {
+      "id": "sales_by_month",
+      "sql": "SELECT month, SUM(revenue) AS revenue FROM sales_records __filters__ GROUP BY month ORDER BY month"
+    },
+    {
+      "id": "sales_by_category",
+      "sql": "SELECT category, SUM(revenue) AS revenue FROM sales_records __filters__ GROUP BY category ORDER BY revenue DESC"
+    },
+    {
+      "id": "sales_detail",
+      "sql": "SELECT month, region, category, revenue FROM sales_records __filters__ ORDER BY month, region, category"
+    }
+  ],
+  "filters": [
+    {
+      "id": "region",
+      "label": "Region",
+      "kind": "single_select",
+      "field": "region",
+      "query": "sales_base",
+      "target_queries": ["sales_by_month", "sales_by_category", "sales_detail"]
+    },
+    {
+      "id": "category",
+      "label": "Category",
+      "kind": "multi_select",
+      "field": "category",
+      "query": "sales_base",
+      "target_queries": ["sales_by_month", "sales_by_category", "sales_detail"]
+    }
+  ],
+  "relationships": [
+    {
+      "id": "region_to_category",
+      "kind": "filter_dependency",
+      "parent_filter": "region",
+      "child_filter": "category"
+    }
+  ],
+  "components": [
+    {
+      "id": "monthly_revenue",
+      "title": "Monthly Revenue",
+      "kind": "line",
+      "query": "sales_by_month",
+      "x": "month",
+      "y": "revenue"
+    },
+    {
+      "id": "category_revenue",
+      "title": "Revenue by Category",
+      "kind": "bar",
+      "query": "sales_by_category",
+      "x": "category",
+      "y": "revenue"
+    },
+    {
+      "id": "sales_records_table",
+      "title": "Filtered Records",
+      "kind": "table",
+      "query": "sales_detail",
+      "columns": ["month", "region", "category", "revenue"]
+    }
+  ],
+  "layout": {
+    "rows": [
+      {
+        "components": [
+          {
+            "component": "monthly_revenue",
+            "width": "full"
+          }
+        ]
+      },
+      {
+        "components": [
+          {
+            "component": "category_revenue",
+            "width": "half"
+          },
+          {
+            "component": "sales_records_table",
+            "width": "half"
+          }
+        ]
+      }
+    ]
+  },
+  "embed": {
+    "height": 760
+  }
+}
